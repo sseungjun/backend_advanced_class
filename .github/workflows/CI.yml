@@ -1,4 +1,4 @@
-name: backend_advancde_class CI
+name: backend_advanced_class CI
 
 on:
   push:
@@ -21,29 +21,35 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # 3. gradlew 권한 부여 (Linux만 해당)
+      # 3. gradlew 권한 부여
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      # 4. Gradle 빌드
+      # 4. application.yml 생성
+      - name: Create application.yml
+        run: |
+          mkdir -p src/main/resources
+          echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
+
+      # 5. Gradle 빌드
       - name: Build with Gradle
         run: ./gradlew clean bootJar
 
-      # 5. DockerHub 로그인
+      # 6. DockerHub 로그인
       - name: DockerHub Login
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # 6. Docker 이미지 빌드 + 태깅
+      # 7. Docker 이미지 빌드 및 태깅
       - name: Build and Tag Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/myapp:${{ github.sha }} \
-                       -t ${{ secrets.DOCKERHUB_USERNAME }}/myapp:latest .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/backend_advanced:${{ github.sha }} \
+                       -t ${{ secrets.DOCKERHUB_USERNAME }}/backend_advanced:latest .
 
-      # 7. DockerHub에 Push
+      # 8. DockerHub에 Push
       - name: Push Docker Image
         run: |
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/myapp:${{ github.sha }}
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/myapp:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend_advanced:${{ github.sha }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/backend_advanced:latest

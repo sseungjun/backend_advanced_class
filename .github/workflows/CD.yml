@@ -1,8 +1,8 @@
-name: backend_advancde_class CD
+name: backend_advanced_class CD
 
 on:
   workflow_run:
-    workflows: ["backend_advancde_class CI"]
+    workflows: ["backend_advanced_class CI"]
     types:
       - completed
     branches: [ "main" ]
@@ -20,16 +20,16 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/myapp:latest
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/backend_advanced:latest
 
             # 기존 컨테이너 중지 및 삭제
-            if [ "$(docker ps -q -f name=myapp)" ]; then
-              docker stop myapp
-              docker rm myapp
+            if [ "$(docker ps -q -f name=backend_advanced)" ]; then
+              docker stop backend_advanced
+              docker rm backend_advanced
             fi
 
             # 새 컨테이너 실행
-            docker run -d --name myapp -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/myapp:latest
+            docker run -d --name backend_advanced -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/backend_advanced:latest
 
-            # 이전 이미지 정리
+            # 사용하지 않는 이미지 정리
             docker system prune -f
