@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/local_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: admin
-    password: 941227  # 💡 현재는 테스트용이므로 임시 포함 (실 서비스 배포 시 제거 권장함.)
+    password: 941227  # 💡 현재는 테스트용이므로 임시 포함 (실 서비스 배포 시 제거 권장)
 
   jpa:
     hibernate:
