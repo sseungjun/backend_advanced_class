@@ -4,9 +4,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/local_db?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: admin
-    password: 941227  # 💡 현재는 테스트용이므로 임시 포함 (실 서비스 배포 시 제거 권장)
+    url: jdbc:mysql://backend-advanced-db.clgayokw8l5y.ap-northeast-2.rds.amazonaws.com:3306/bacDB?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: master
+    password: tmdwns501!
 
   jpa:
     hibernate:
@@ -16,6 +16,10 @@ spring:
         format_sql: true
         show_sql: true
     open-in-view: true
+
+jwt:
+  secret: ZGVmYXVsdC1zZWNyZXQta2V5LXRvLWNoYW5nZQ==
+  expiration: 7200000  # 2시간
 
 server:
   forward-headers-strategy: framework
